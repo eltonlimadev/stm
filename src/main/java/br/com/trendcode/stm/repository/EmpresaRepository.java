@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.trendcode.stm.connection.ConnectioFactory;
+import br.com.trendcode.stm.connection.ConnectionFactory;
 import br.com.trendcode.stm.model.Empresa;
 
 public class EmpresaRepository {
@@ -16,12 +16,12 @@ public class EmpresaRepository {
 
 	public EmpresaRepository() {
 
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 	}
 
 	public boolean create(Empresa empresa) {
 
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "INSERT INTO TB_EMPRESA (razaoSocial,nome,cnpj,inscricaoEstadual,inscricaoMunicipal) VALUES (?,?,?,?,?)";
 		PreparedStatement statement = null;
@@ -41,13 +41,13 @@ public class EmpresaRepository {
 			return false;
 
 		} finally {
-			ConnectioFactory.closeConnection(connection, statement);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 	
 	public Empresa findByCodigo(Long codigo) {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "SELECT * FROM TB_EMPRESA WHERE codigo=?";
 		
@@ -74,7 +74,7 @@ public class EmpresaRepository {
 			System.err.println("Erro ao Ler Registro no Banco de Dados.: " + e);
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		
 		return empresa;
@@ -82,7 +82,7 @@ public class EmpresaRepository {
 	
 	public Empresa findByCnpj(String cnpj) {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "SELECT * FROM TB_EMPRESA WHERE cnpj=?";
 		
@@ -109,7 +109,7 @@ public class EmpresaRepository {
 			System.err.println("Erro ao Ler Registro no Banco de Dados.: " + e);
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		
 		return empresa;
@@ -117,7 +117,7 @@ public class EmpresaRepository {
 
 	public List<Empresa> readAll() {
 
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "SELECT * FROM TB_EMPRESA";
 		
@@ -147,7 +147,7 @@ public class EmpresaRepository {
 			System.err.println("Erro ao Ler Registros no Banco de Dados.: " + e);
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		
 		return empresas;
@@ -155,7 +155,7 @@ public class EmpresaRepository {
 	
 	public boolean update(Empresa empresa) {
 
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "UPDATE TB_EMPRESA SET razaoSocial=?,nome=?,cnpj=?,inscricaoEstadual=?,inscricaoMunicipal=? WHERE codigo=?";
 		PreparedStatement statement = null;
@@ -176,13 +176,13 @@ public class EmpresaRepository {
 			return false;
 
 		} finally {
-			ConnectioFactory.closeConnection(connection, statement);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
 	public boolean delete(Empresa empresa) {
 
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "DELETE FROM TB_EMPRESA WHERE codigo=?";
 		PreparedStatement statement = null;
@@ -198,7 +198,7 @@ public class EmpresaRepository {
 			return false;
 
 		} finally {
-			ConnectioFactory.closeConnection(connection, statement);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 }

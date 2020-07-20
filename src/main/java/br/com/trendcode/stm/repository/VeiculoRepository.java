@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.trendcode.stm.connection.ConnectioFactory;
+import br.com.trendcode.stm.connection.ConnectionFactory;
 import br.com.trendcode.stm.model.Empresa;
 import br.com.trendcode.stm.model.Veiculo;
 
@@ -17,12 +17,12 @@ public class VeiculoRepository {
 	
 	public VeiculoRepository() {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 	}
 	
 	public boolean create (Veiculo veiculo) {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "INSERT INTO TB_VEICULO (placa,marca,ano,modelo,cor,chassi,renavam,combustivel,odometro,situacao,estatus,proprietario)"
 				     + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -52,13 +52,13 @@ public class VeiculoRepository {
 			
 			return false;
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 	
 	public Veiculo findByCodigo(Long codigo) {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "select * from TB_VEICULO veiculo inner join TB_EMPRESA empresa on empresa.codigo = veiculo.proprietario where veiculo.codigo=?";
 		PreparedStatement statement = null;
@@ -101,7 +101,7 @@ public class VeiculoRepository {
 			System.err.println("Erro ao Ler Registro no Banco de Dados.: " + e);
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		
 		return veiculo;
@@ -109,7 +109,7 @@ public class VeiculoRepository {
 	
 	public Veiculo findByPlaca(String placa) {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "select * from TB_VEICULO veiculo inner join TB_EMPRESA empresa on empresa.codigo = veiculo.proprietario where veiculo.placa=?";
 		PreparedStatement statement = null;
@@ -152,7 +152,7 @@ public class VeiculoRepository {
 			System.err.println("Erro ao Ler Registro no Banco de Dados.: " + e);
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		
 		return veiculo;
@@ -160,7 +160,7 @@ public class VeiculoRepository {
 	
 	public List<Veiculo> readAll(){
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "select * from TB_VEICULO veiculo inner join TB_EMPRESA empresa on empresa.codigo = veiculo.proprietario";
 		
@@ -206,7 +206,7 @@ public class VeiculoRepository {
 			System.err.println("Erro ao Ler Registros no Banco de Dados.: " + e);
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		
 		return veiculos;
@@ -214,7 +214,7 @@ public class VeiculoRepository {
 	
 	public boolean update(Veiculo veiculo) {
 
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "UPDATE TB_VEICULO SET placa=?,marca=?,ano=?,modelo=?,cor=?,chassi=?,renavam=?,combustivel=?,odometro=?,situacao=?,estatus=?,proprietario=? "
 				+ "WHERE codigo=?";
@@ -245,13 +245,13 @@ public class VeiculoRepository {
 			return false;
 			
 		} finally {
-			ConnectioFactory.closeConnection(connection, statement);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 	
 	public boolean delete(Veiculo veiculo) {
 		
-		connection = ConnectioFactory.getConnection();
+		connection = ConnectionFactory.getConnection();
 		
 		String sql = "DELETE FROM TB_VEICULO WHERE codigo=?";
 		PreparedStatement statement = null;
@@ -268,7 +268,7 @@ public class VeiculoRepository {
 			return false;
 			
 		}finally {
-			ConnectioFactory.closeConnection(connection, statement);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 }

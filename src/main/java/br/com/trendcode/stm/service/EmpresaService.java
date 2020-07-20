@@ -25,7 +25,7 @@ public class EmpresaService {
 		Empresa empresa = empresaRepository.findByCodigo(codigo);
 		
 		if(empresa.getCodigo() == 0) {
-			throw new ObjectNotFoundException("Objeto Não Encontrado! CNPJ: " + codigo
+			throw new ObjectNotFoundException("Objeto Não Encontrado! Código: " + codigo
 					+ ", Tipo: " + Empresa.class.getName());
 		}
 		return empresa;
