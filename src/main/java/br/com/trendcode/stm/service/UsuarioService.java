@@ -2,6 +2,7 @@ package br.com.trendcode.stm.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.trendcode.stm.model.Usuario;
@@ -11,13 +12,16 @@ import br.com.trendcode.stm.service.exceptions.ObjectNotFoundException;
 @Service
 public class UsuarioService {
 
-	UsuarioRepository usuarioRepository = null;
+	private UsuarioRepository usuarioRepository = null;
+	private BCryptPasswordEncoder passwordEncoder = null;
 	
 	public UsuarioService () {
 		usuarioRepository = new UsuarioRepository();
+		passwordEncoder = new BCryptPasswordEncoder();
 	}
 	
 	public void salvar(Usuario usuario) {
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		usuarioRepository.create(usuario);
 	}
 	

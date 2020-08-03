@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.trendcode.stm.connection.ConnectionFactory;
 import br.com.trendcode.stm.model.Usuario;
+import br.com.trendcode.stm.model.enums.Perfil;
 
 public class UsuarioRepository {
 
@@ -22,7 +23,7 @@ public class UsuarioRepository {
 		
 		connection = ConnectionFactory.getConnection();
 		
-		String sql = "INSERT INTO TB_USUARIO (nome,cpf,telefone,email,senha) VALUES (?,?,?,?,?)";
+		String sql = "INSERT INTO TB_USUARIO (nome,cpf,telefone,email,senha,perfil) VALUES (?,?,?,?,?,?)";
 		PreparedStatement statement = null;
 		
 		try {
@@ -32,10 +33,11 @@ public class UsuarioRepository {
 			statement.setString(3, usuario.getTelefone());
 			statement.setString(4, usuario.getEmail());
 			statement.setString(5, usuario.getSenha());
+			statement.setInt(6, usuario.getPerfil().getCodigo());
 			statement.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			System.err.println("Erro ao Salvar Usuário.: " + e);
+			System.err.println("Erro ao Salvar Usuário na Base de Dados.: " + e);
 			return false;
 			
 		}finally {
@@ -65,6 +67,23 @@ public class UsuarioRepository {
 				usuario.setTelefone(resultSet.getString("telefone"));
 				usuario.setEmail(resultSet.getString("email"));
 				usuario.setSenha(resultSet.getString("senha"));
+				
+				int codPerfil = resultSet.getInt("perfil");
+				
+				switch (codPerfil) {
+					case 1:
+						usuario.setPerfil(Perfil.ADMIN);
+						break;
+					case 2:
+						usuario.setPerfil(Perfil.FUNCIONARIO);
+						break;
+					case 3:
+						usuario.setPerfil(Perfil.FORNECEDOR);
+						break;
+					case 4:
+						usuario.setPerfil(Perfil.CLIENTE);
+						break;
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -98,6 +117,23 @@ public class UsuarioRepository {
 					usuario.setTelefone(resultSet.getString("telefone"));
 					usuario.setEmail(resultSet.getString("email"));
 					usuario.setSenha(resultSet.getString("senha"));
+					
+					int codPerfil = resultSet.getInt("perfil");
+					
+					switch (codPerfil) {
+						case 1:
+							usuario.setPerfil(Perfil.ADMIN);
+							break;
+						case 2:
+							usuario.setPerfil(Perfil.FUNCIONARIO);
+							break;
+						case 3:
+							usuario.setPerfil(Perfil.FORNECEDOR);
+							break;
+						case 4:
+							usuario.setPerfil(Perfil.CLIENTE);
+							break;
+					}
 				}
 				
 			} catch (SQLException e) {
@@ -134,6 +170,23 @@ public class UsuarioRepository {
 				usuario.setEmail(resultSet.getString("email"));
 				usuario.setSenha(resultSet.getString("senha"));
 				
+				int codPerfil = resultSet.getInt("perfil");
+				
+				switch (codPerfil) {
+					case 1:
+						usuario.setPerfil(Perfil.ADMIN);
+						break;
+					case 2:
+						usuario.setPerfil(Perfil.FUNCIONARIO);
+						break;
+					case 3:
+						usuario.setPerfil(Perfil.FORNECEDOR);
+						break;
+					case 4:
+						usuario.setPerfil(Perfil.CLIENTE);
+						break;
+				}
+				
 				usuarios.add(usuario);
 			}
 			
@@ -151,7 +204,7 @@ public class UsuarioRepository {
 		
 		connection = ConnectionFactory.getConnection();
 		
-		String sql = "UPDATE TB_USUARIO SET nome=?,cpf=?,telefone=?,email=?,senha=? WHERE codigo=?";
+		String sql = "UPDATE TB_USUARIO SET nome=?,cpf=?,telefone=?,email=?,senha=?,perfil=? WHERE codigo=?";
 		PreparedStatement statement = null;
 		
 		try {
@@ -161,12 +214,13 @@ public class UsuarioRepository {
 			statement.setString(3, usuario.getTelefone());
 			statement.setString(4, usuario.getEmail());
 			statement.setString(5, usuario.getSenha());
-			statement.setLong(6, usuario.getCodigo());
+			statement.setInt(6, usuario.getPerfil().getCodigo());
+			statement.setLong(7, usuario.getCodigo());
 			statement.executeUpdate();
 			return true;
 			
 		} catch (SQLException e) {
-			System.err.println("Erro ao Atualizar Usuário.: " + e);
+			System.err.println("Erro ao Atualizar Usuário na Base de Dados.: " + e);
 			return false;
 			
 		}finally {

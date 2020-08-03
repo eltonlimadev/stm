@@ -1,16 +1,24 @@
 package br.com.trendcode.stm.model;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class Usuario implements Serializable{
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import br.com.trendcode.stm.model.enums.Perfil;
+
+public class Usuario implements UserDetails{
 	private static final long serialVersionUID = 1L;
-
+	
 	private long codigo;
 	private String nome;
 	private String cpf;
 	private String telefone;
 	private String email;
 	private String senha;
+	private Perfil perfil;
 	
 	public Usuario() {
 		
@@ -52,5 +60,56 @@ public class Usuario implements Serializable{
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<Perfil> perfis = new ArrayList<>();
+		perfis.add(this.perfil);
+		return perfis;
+	}
+
+	@Override
+	public String getPassword() {
+		
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		
+		return this.cpf;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		
+		return true;
+	}
+
 }

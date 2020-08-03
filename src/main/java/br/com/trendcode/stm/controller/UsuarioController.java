@@ -31,6 +31,7 @@ public class UsuarioController {
 		Usuario usuario = usuarioService.buscarPorCpf(cpf);
 		return ResponseEntity.ok().body(usuario);
 	}
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Usuario>> findAll (){
 		List<Usuario> usuarios = usuarioService.buscarTodos();
